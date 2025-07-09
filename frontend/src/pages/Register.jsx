@@ -22,7 +22,7 @@ const Register = () => {
         setPassword("")
 
         try {
-            const res = await axios.post("http://localhost:8000/register",{username, password})
+            const res = await axios.post("https://incentive-traker-backend.onrender.com/register",{username, password})
             console.log(username, password)
             if(res.data.success){
                 alert(res.data.message)
