@@ -22,7 +22,7 @@ const Login = () => {
         setPassword("")
         setError("")
         try {
-            const res = await axios.post("http://localhost:8000/login", { username, password })
+            const res = await axios.post("https://incentive-traker-backend.onrender.com/login", { username, password })
             const userData = res.data.user;
             login(userData); // pass only the user object
             localStorage.setItem("user", JSON.stringify(userData));
