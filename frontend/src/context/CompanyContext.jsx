@@ -15,7 +15,7 @@ export const CompanyProvider = ({ children }) => {
       const token = user?.token;
     //   console.log("🚀 Token before fetchCompanys:", user?.token);
       
-        const res = await axios.get("http://localhost:8000/getCompanys",{
+        const res = await axios.get("https://incentive-traker-backend.onrender.com/getCompanys",{
             headers: {
           Authorization: `Bearer ${token}`, 
         },
