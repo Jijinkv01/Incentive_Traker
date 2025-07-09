@@ -16,7 +16,7 @@ export const RecordProvider = ({ children }) => {
     setIsLoadingRecords(true);
     const token = user?.token;
     const res = await axios.get(
-      `http://localhost:8000/getRecords?page=${currentPage}&search=${search}`,
+      `https://incentive-traker-backend.onrender.com/getRecords?page=${currentPage}&search=${search}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
