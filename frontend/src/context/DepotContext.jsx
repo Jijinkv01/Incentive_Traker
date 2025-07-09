@@ -15,7 +15,7 @@ export const DepotProvider = ({ children }) => {
       const token = user?.token;
       // console.log("🚀 Token before fetchDepots:", user?.token);
       
-        const res = await axios.get("http://localhost:8000/getDepots",{
+        const res = await axios.get("https://incentive-traker-backend.onrender.com/getDepots",{
             headers: {
           Authorization: `Bearer ${token}`, 
         },
