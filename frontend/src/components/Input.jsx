@@ -68,7 +68,7 @@ const Input = () => {
     console.log(newRecord)
     try {
       const token = user?.token;
-      const res = await axios.post("http://localhost:8000/addRecord", newRecord , {
+      const res = await axios.post("https://incentive-traker-backend.onrender.com/addRecord", newRecord , {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
