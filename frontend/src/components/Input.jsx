@@ -4,6 +4,7 @@ import { useCompany } from '../context/CompanyContext';
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import { useAuth } from '../context/UserAuthContext';
+import axiosInstance from '../api'
 
 
 const Input = () => {
@@ -68,7 +69,7 @@ const Input = () => {
     console.log(newRecord)
     try {
       const token = user?.token;
-      const res = await axios.post("https://incentive-traker-backend.onrender.com/addRecord", newRecord , {
+      const res = await axiosInstance.post("/addRecord", newRecord , {
         headers: {
           Authorization: `Bearer ${token}`, 
         },

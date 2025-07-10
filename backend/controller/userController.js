@@ -62,7 +62,9 @@ const login = async (req, res) => {
 
 const getDepot = async (req, res) => {
     try {
-        const depots = await Depot.find()
+        const user = req.user.userId
+        console.log("depot user hahaha",user)
+        const depots = await Depot.find({user})
         res.status(200).json({ success: true, depots });
     } catch (error) {
         console.error(error)
@@ -72,7 +74,8 @@ const getDepot = async (req, res) => {
 
 const getCompanys = async (req, res) => {
     try {
-        const companys = await Company.find()
+        const user = req.user.userId
+        const companys = await Company.find({user})
         res.status(200).json({ success: true, companys });
     } catch (error) {
         console.error(error)
@@ -97,11 +100,13 @@ const addRecord = async (req, res) => {
 
 const getRecords = async (req, res) => {
     try {
+        const userId = req.user.userId
+        console.log("user id kitti",userId)
         const { page = 1, limit = 5, search = "" } = req.query;
         const skip = (page - 1) * limit;
          const lower = search.toLowerCase();
 
-        const allRecords = await Record.find()
+        const allRecords = await Record.find({userId}).sort({createdAt:-1})
             .populate("depotId", "name")
             .populate("companyId", "name");
 
@@ -130,6 +135,20 @@ const getRecords = async (req, res) => {
     }
 }
 
+const deleteRecord = async (req, res) => {
+    try {
+        const recordId = req.params.id
+        const deleted = await Record.findByIdAndDelete(recordId);
+        if (!deleted) {
+      return res.status(404).json({ success: false, message: "Record not found" });
+    }
+     res.status(200).json({ success: true, message: "Record deleted successfully" });
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ success: false, message: "Server Error" })
+    }
+}
+
 
 module.exports = {
     register,
@@ -137,6 +156,7 @@ module.exports = {
     getDepot,
     getCompanys,
     addRecord,
-    getRecords
+    getRecords,
+    deleteRecord
 
 }

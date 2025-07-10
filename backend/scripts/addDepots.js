@@ -3,7 +3,7 @@ const Depot = require("../model/depotModel")
 const dotenv = require("dotenv")
 dotenv.config()
 
-const userId = "686c0bfa91064e2bd02a3cf6"
+const userId = "686f7752770d3d4edaaf290d"
  
 const userDepotList = [
   "Kasargod",
@@ -15,6 +15,7 @@ const userDepotList = [
   "Bathery",
   "Kalpetta"
 ];
+
 
 mongoose.connect(process.env.MONGO_URI).then(async () => {
   const result = await Depot.insertMany(

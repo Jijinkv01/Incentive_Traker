@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useAuth } from "./UserAuthContext";
+import axiosInstance from "../api";
 
 const CompanyContext = createContext();
 
@@ -15,7 +16,7 @@ export const CompanyProvider = ({ children }) => {
       const token = user?.token;
     //   console.log("🚀 Token before fetchCompanys:", user?.token);
       
-        const res = await axios.get("https://incentive-traker-backend.onrender.com/getCompanys",{
+        const res = await axiosInstance.get("/getCompanys",{
             headers: {
           Authorization: `Bearer ${token}`, 
         },

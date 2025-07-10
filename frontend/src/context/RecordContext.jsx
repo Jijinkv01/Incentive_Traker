@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext,useCallback } from "react";
 import axios from "axios";
 import { useAuth } from "./UserAuthContext";
+import axiosInstance from "../api";
 
 const RecordContext = createContext();
 
@@ -15,8 +16,8 @@ export const RecordProvider = ({ children }) => {
   try {
     setIsLoadingRecords(true);
     const token = user?.token;
-    const res = await axios.get(
-      `https://incentive-traker-backend.onrender.com/getRecords?page=${currentPage}&search=${search}`,
+    const res = await axiosInstance.get(
+      `/getRecords?page=${currentPage}&search=${search}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from "axios"
+import axiosInstance from '../api'
 
 const Register = () => {
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ const Register = () => {
         setPassword("")
 
         try {
-            const res = await axios.post("https://incentive-traker-backend.onrender.com/register",{username, password})
+            const res = await axiosInstance.post("/register",{username, password})
             console.log(username, password)
             if(res.data.success){
                 alert(res.data.message)

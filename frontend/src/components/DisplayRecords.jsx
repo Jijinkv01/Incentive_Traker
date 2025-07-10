@@ -1,15 +1,34 @@
 import React from 'react'
 import { useRecord } from '../context/RecordContext'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import SearchBy from "../components/SearchBy"
+import axiosInstance from '../api'
+import { useAuth } from '../context/UserAuthContext'
 
 const DisplayRecords = () => {
-    const {records, isLoadingRecords, fetchRecords, page, totalPages} = useRecord()
-    const [searchTerm, setSearchTerm] = useState("");
-    const [debouncedSearch, setDebouncedSearch] = useState("");
-    
+  const { records, isLoadingRecords, fetchRecords, page, totalPages } = useRecord()
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const { user } = useAuth()
 
-     useEffect(() => {
+
+  const handleDelete = async (id) => {
+    try {
+      const token = user?.token;
+      await axiosInstance.delete(`/deleteRecord/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      fetchRecords(page, debouncedSearch || "");
+    } catch (error) {
+      console.error("Error deleting record:", error);
+    }
+
+  }
+
+  useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchTerm);
     }, 2000);
@@ -28,7 +47,7 @@ const DisplayRecords = () => {
 
 
 
-    if (isLoadingRecords) return <p className="text-center mt-4">Loading companys...</p>;
+  if (isLoadingRecords) return <p className="text-center mt-4">Loading companys...</p>;
 
 
   return (
@@ -45,8 +64,10 @@ const DisplayRecords = () => {
               <th className="px-2 md:px-4 py-2 border">Outlet Name</th>
               <th className="px-2 md:px-4 py-2 border">Amount</th>
               <th className="px-2 md:px-4 py-2 border">Manager Name</th>
-              
-              
+              <th className="px-2 md:px-4 py-2 border">Remarks</th>
+              <th className="px-2 md:px-4 py-2 border">Action</th>
+
+
             </tr>
           </thead>
           <tbody>
@@ -62,6 +83,19 @@ const DisplayRecords = () => {
                   <td className="border px-2 md:px-4 py-2">{record.outletName}</td>
                   <td className="border px-2 md:px-4 py-2">{record.calculatedAmount}</td>
                   <td className="border px-2 md:px-4 py-2">{record.managerName}</td>
+                  <td className="border px-2 md:px-4 py-2">{record.remark}</td>
+                  <td className="border px-2 md:px-4 py-2">
+                    <button
+                      onClick={() => {
+                        if (window.confirm("Are you sure you want to delete this record?")) {
+                          handleDelete(record._id);
+                        }
+                      }}
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (

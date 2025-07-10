@@ -9,6 +9,7 @@ router.get("/getDepots",userAuth,userController.getDepot)
 router.get("/getCompanys",userAuth,userController.getCompanys)
 router.post("/addRecord",userAuth,userController.addRecord)
 router.get("/getRecords",userAuth,userController.getRecords)
+router.delete("/deleteRecord/:id",userAuth,userController.deleteRecord)
 
 
 module.exports = router
